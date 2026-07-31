@@ -37,6 +37,10 @@ T(210)_hText("Models/IT/Mobile Phone/phoneholder_car_headrest.scad");
 
 // ========================================== [ Tools ] ===========================================
 // =================================== [ Tools / Consumables ] ====================================
+// ========================== [ Tools / Consumables / bowdenplug.scad ] ===========================
+use <Models/Tools/Consumables/bowdenplug.scad>;
+T(-25,55)bowdenplug();
+T(-40,50)_hText("Models/Tools/Consumables/bowdenplug.scad",true);
 // ========================== [ Tools / Consumables / trussclamp.scad ] ===========================
 use <Models/Tools/Consumables/trussclamp.scad>;
 T(-40)trussclamp();
