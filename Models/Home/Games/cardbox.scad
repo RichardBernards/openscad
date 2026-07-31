@@ -1,6 +1,6 @@
 //
 //    Parametric Box for cardgames
-// Models/Home/Games/Card/parametric_cardbox.scad (https://github.com/RichardBernards/openscad/)
+// Models/Home/Games/cardbox.scad (https://github.com/RichardBernards/openscad/)
 //
 // Copyright Richard Bernards
 //

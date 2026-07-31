@@ -37,51 +37,55 @@ $fs = 0.2;
 // renderSetting 2
 $fa = 2;
 
-clampingOffsets = [0.5,0.08,0.12];
-trussDia = (trussDiameter - (clampingOffsets[clampingForce] * trussDiameter));
 
 
-%trussPipe();
-minkowski() {
-  translate([0,0,fillet]) linear_extrude(clampHeight-(2*fillet)) offset(delta=-fillet) { clamp(); }
-  sphere(r=fillet);
-}
 
+trussclamp(trussDiameter=trussDiameter, clampingForce=clampingForce, walls=walls, cableHolder=cableHolder, clampHeight=clampHeight, fillet=fillet, clampOpening=clampOpening);
 
-module clamp() {
-  module __bluePrint() {
-    union() {
-      circle(d=(trussDia+(2*walls)));
-      translate([0,-((0.75*trussDia)-walls)]) scale([1,(cableHolder[1]/cableHolder[0]),1]) { circle(d=(cableHolder[0]+(2*walls))); }
-      translate([0,-(0.5*trussDia)]) square([(0.8*trussDia),(6*walls)], center=true);
-      
-      intersection() {
-        circle(d=(trussDia+(4*walls)));
-        polygon([
-          [0,0],
-          [(sin(0.5*clampOpening)*trussDia),(cos(0.5*clampOpening)*trussDia)],
-          [-(sin(0.5*clampOpening)*trussDia),(cos(0.5*clampOpening)*trussDia)],
-        ]);
+module trussclamp(trussDiameter = 50, clampingForce = 1, walls = 3.4, cableHolder = [46,26], clampHeight = 36, fillet = 0.8, clampOpening = 90) {
+  clampingOffsets = [0.5,0.08,0.12];
+  trussDia = (trussDiameter - (clampingOffsets[clampingForce] * trussDiameter));
+
+  module _clamp() {
+    module __bluePrint() {
+      union() {
+        circle(d=(trussDia+(2*walls)));
+        translate([0,-((0.75*trussDia)-walls)]) scale([1,(cableHolder[1]/cableHolder[0]),1]) { circle(d=(cableHolder[0]+(2*walls))); }
+        translate([0,-(0.5*trussDia)]) square([(0.8*trussDia),(6*walls)], center=true);
+        
+        intersection() {
+          circle(d=(trussDia+(4*walls)));
+          polygon([
+            [0,0],
+            [(sin(0.5*clampOpening)*trussDia),(cos(0.5*clampOpening)*trussDia)],
+            [-(sin(0.5*clampOpening)*trussDia),(cos(0.5*clampOpening)*trussDia)],
+          ]);
+        }
+      }
+    }
+
+    offset(r=fillet) {
+      offset(delta=-fillet) {
+        difference() {
+          __bluePrint();
+          offset(delta=-walls) { __bluePrint(); }
+
+          polygon([
+            [0,0],
+            [(sin(0.5*clampOpening)*trussDia)-(2*walls),(cos(0.5*clampOpening)*trussDia)],
+            [-(sin(0.5*clampOpening)*trussDia)+(2*walls),(cos(0.5*clampOpening)*trussDia)],
+          ]);
+        }
       }
     }
   }
-
-  offset(r=fillet) {
-    offset(delta=-fillet) {
-      difference() {
-        __bluePrint();
-        offset(delta=-walls) { __bluePrint(); }
-
-        polygon([
-          [0,0],
-          [(sin(0.5*clampOpening)*trussDia)-(2*walls),(cos(0.5*clampOpening)*trussDia)],
-          [-(sin(0.5*clampOpening)*trussDia)+(2*walls),(cos(0.5*clampOpening)*trussDia)],
-        ]);
-      }
-    }
+  module _trussPipe() {
+    color("green") translate([0,0,(-100+(0.5*clampHeight))]) cylinder(h=200,d=trussDia);
   }
-}
 
-module trussPipe() {
-  color("green") translate([0,0,(-100+(0.5*clampHeight))]) cylinder(h=200,d=trussDia);
+//  %trussPipe();
+  minkowski() {
+    translate([0,0,fillet]) linear_extrude(clampHeight-(2*fillet)) offset(delta=-fillet) { _clamp(); }
+    sphere(r=fillet);
+  }
 }
