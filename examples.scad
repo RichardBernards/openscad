@@ -1,4 +1,17 @@
-
+//
+//    OpenSCAD model example file
+// examples.scad (https://github.com/RichardBernards/openscad/)
+//
+// Copyright Richard Bernards
+//
+// LICENSE: CC BY-NC 4.0
+// This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+// To view a copy of this license, visit <http://creativecommons.org/licenses/by-nc/4.0/>
+// or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+//
+//  [Version history]
+//      v1.0.0    2026-07-31    Initial version
+//
 
 
 
@@ -22,7 +35,11 @@ use <ub.scad>;
 // =============================== [ Home / Games / cardbox.scad ] ================================
 //use <Models/Home/Games/cardbox.scad>;
 //RIXTODO convert with UB and check design
-
+// ====================================== [ Home / Storage ] ======================================
+// ========================= [ Home / Storage / dialbox_organiser.scad ] ==========================
+use <Models/Home/Storage/dialbox_organiser.scad>;
+T(50,100)dialbox_organiser();
+T(100,100)_hText("Models/Home/Storage/dialbox_organiser.scad");
 
 
 // ============================================ [ IT ] ============================================
