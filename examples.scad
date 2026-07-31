@@ -33,6 +33,8 @@ T(100)phoneholder_car_headrest();
 T(210)_hText("Models/IT/Mobile Phone/phoneholder_car_headrest.scad");
 
 
+
+
 // ========================================== [ Tools ] ===========================================
 // =================================== [ Tools / Consumables ] ====================================
 // ========================== [ Tools / Consumables / trussclamp.scad ] ===========================
@@ -41,14 +43,17 @@ T(-40)trussclamp();
 T(-90)_hText("Models/Tools/Consumables/trussclamp.scad",true);
 
 
+
+
 // ==================================== [ Tools / Powertools ] ====================================
 // ====================== [ Tools / Powertools / dewalt_batteryholder.scad ] ======================
 use <Models/Tools/Powertools/dewalt_batteryholder.scad>;
 T(-20,-160)R(0,0,90)dewalt_batteryholder();
 T(-275,-120)_hText("Models/Tools/Powertools/dewalt_batteryholder.scad",true);
-
-
-
+// ======================== [ Tools / Powertools / dewalt_bitholder.scad ] ========================
+use <Models/Tools/Powertools/dewalt_bitholder.scad>;
+T(-50,-200)dewalt_bitholder();
+T(-100,-205)_hText("Models/Tools/Powertools/dewalt_bitholder.scad",true);
 
 
 
