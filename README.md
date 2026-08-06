@@ -24,6 +24,35 @@ The used folder structure is an attempt to quickly locate a specific script by u
 | `dialbox_organiser.scad` | Organiser for watch-dial-boxes commonly used in the watch making industry. |
 
 </details>
+<details>
 
-## Render of examples
+<summary>IT</summary>
+
+### IT/Mobile Phone
+| File | Description |
+| --- | --- |
+| `phoneholder_car_headrest.scad` | Parameterised phoneholder to be attached to the vertical rods of headrests in cars. |
+
+</details>
+<details>
+
+<summary>Tools</summary>
+
+### Tools/Consumables
+| File | Description |
+| --- | --- |
+| `bowdenplug.scad` | A plug to close off bowden-tube connectors. It also feature a cavity to house a little bit of excess filament. |
+| `cableclamp.scad` | A simple cableclamp to be secured using a screw. |
+| `knob.scad` | Parameterised knob for potmeters and rotary encoders. Features multiple designs, knurling and indicators. |
+| `trussclamp.scad` | A simple parameterised clamp to secure cables to pipes. Mostly used on trusses or other mounting-solutions. |
+
+### Tools/Powertools
+| File | Description |
+| --- | --- |
+| `dewalt_batteryholder.scad` | Parameterised battery holder for DeWalt powertool batteries. Feature several designs and mounting solutions. |
+| `dewalt_bitholder.scad` | Bitholder to be attached to DeWalt (impact)drivers and drills. |
+
+</details>
+
+## Render of models
 ![examples](examples.png)
