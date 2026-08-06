@@ -35,6 +35,14 @@ use <ub.scad>;
 // =============================== [ Home / Games / cardbox.scad ] ================================
 //use <Models/Home/Games/cardbox.scad>;
 //RIXTODO convert with UB and check design
+
+
+// ====================================== [ Home / Kitchen ] ======================================
+// ========================== [ Home / Kitchen / papertowelholder.scad ] ==========================
+use <Models/Home/Kitchen/papertowelholder.scad>;
+T(100,230)papertowelholder(renderItem=4);
+T(200,230)_hText("Models/Home/Kitchen/papertowelholder.scad");
+
 // ====================================== [ Home / Storage ] ======================================
 // ========================= [ Home / Storage / dialbox_organiser.scad ] ==========================
 use <Models/Home/Storage/dialbox_organiser.scad>;
