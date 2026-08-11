@@ -18,6 +18,11 @@ The used folder structure is an attempt to quickly locate a specific script by u
 | --- | --- |
 | `papertowelholder.scad` | Paper towel holder ready for 3D printing. Uses a springloaded button to be able to secure the roll for easy tear-offs. |
 
+### Home/Lamps
+| File | Description |
+| --- | --- |
+| `ledchannel.scad` | Tubular ledchannel lamp, which features a sectioned design, useful when 3D-printing. |
+
 ### Home/Storage
 | File | Description |
 | --- | --- |

@@ -40,8 +40,16 @@ use <ub.scad>;
 // ====================================== [ Home / Kitchen ] ======================================
 // ========================== [ Home / Kitchen / papertowelholder.scad ] ==========================
 use <Models/Home/Kitchen/papertowelholder.scad>;
-T(100,230)papertowelholder(renderItem=4);
-T(200,230)_hText("Models/Home/Kitchen/papertowelholder.scad");
+T(100,300)papertowelholder(renderItem=4);
+T(200,300)_hText("Models/Home/Kitchen/papertowelholder.scad");
+
+
+// ======================================= [ Home / Lamps ] =======================================
+// ============================== [ Home / Lamps / ledchannel.scad ] ==============================
+use <Models/Home/Lamps/ledchannel.scad>;
+T(170,170,-75)ledchannel(renderItem=4);
+T(340,170)_hText("Models/Home/Lamps/ledchannel.scad");
+
 
 // ====================================== [ Home / Storage ] ======================================
 // ========================= [ Home / Storage / dialbox_organiser.scad ] ==========================
