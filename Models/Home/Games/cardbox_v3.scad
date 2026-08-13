@@ -35,6 +35,10 @@ fillet = 1.6;
 dividerOffsets = [10,15];
 // Diameter of hinge hole in mm (enlarge if filament doesn't fit or has to much friction)
 hingeD = 2.2;
+// When set, displays text on box
+boxText = "Regular";
+// Where to put the text
+textPosition = 0; // [0:Front, 1:Side, 2:Top, 3:Bottom]
 
 /* [Cardbox Settings] */
 // Height dimension of the lid (indirectly determines height of hinge) in mm
@@ -42,13 +46,11 @@ lidHeight = 16; // [10:40]
 
 /* [Flipbox Settings] */
 // Whether to have a slanted outside half of the box or not
-slantedOutside = true;
+slantedOutside = false;
 
 /* [Advanced Settings] */
-fontString = "Agency FB:style=Bold";
-
-
-
+font = "Agency FB:style=Bold";
+fontSize = 10;
 
 /* [Hidden] */
 // renderSetting 1
@@ -58,21 +60,6 @@ $fa = 2;
 
 use <ub.scad>;
 
-
-/*
-          TODO:
-    [x] Add flipbox type
-    [x] Add flipbox slant
-    [x] Add "stop-bumps" on flipbox
-    [x] Roundover on lid hingeparts for cardbox
-    [x] Add divider functionality
-    [ ] Add text thingies
-    [x] filament hole channel in box of flipbox
-
-*/
-
-
-
 cardbox(
   type=boxType,
   dims=[insideWidth,insideDepth,insideHeight],
@@ -81,13 +68,40 @@ cardbox(
   fillet=fillet,
   hingeD=hingeD,
   dividers=dividerOffsets,
+  boxText=boxText,
+  textPosition=textPosition,
+  font=font,
+  fontSize=fontSize,
   flipSlanted=slantedOutside,
 );
 
 
 
-module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20, hingeD=2.2, dividers=[0,0], flipSlanted=false) {
+module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20, hingeD=2.2, dividers=[0,0], boxText="", textPosition=0, font="Agency FB:style=Bold", fontSize=10, flipSlanted=false) {
   diThick = 0.6;
+  tDepth = 0.4;
+  tSideOffset = 4;
+  flipClearance=0.5;
+  module _textCutout() {
+    module __extrudedText(centerIt=true) {
+      tm = textmetrics(boxText, font=font, size=fontSize);
+      T(-(centerIt == true ? (tm.position[0]+(0.5*tm.size[0])) : 0),-(tm.position[1]+(0.5*tm.size[1])),-tDepth)linear_extrude(tDepth+0.1)text(boxText, font=font, size=fontSize);
+    }
+    if(len(boxText) > 0) {
+      if(type == 0) {//cardbox
+        if(textPosition == 0) { T(0,-((0.5*dims[1])+wall),(wall+(0.5*dims[2])))R(90)__extrudedText(); }//Front
+        if(textPosition == 1) { T(-(wall+(0.5*dims[0])),0,(wall+tSideOffset))R(0,-90)__extrudedText(false); }//Side
+        if(textPosition == 2) { Tz(dims[2]+(2*wall))__extrudedText(); }//Top
+        if(textPosition == 3) { R(180,0,180)__extrudedText(); }//Bottom
+      }
+      if(type == 1) {//flipbox
+        if(textPosition == 0) { T(0,-((0.5*dims[1])+(2*wall)+(0.5*flipClearance)),(wall+(0.2*dims[2])))R(90,180)__extrudedText(); }//Front
+        if(textPosition == 1) { T((wall+(0.5*dims[0])),0,(dims[2]+(2*wall)-tSideOffset))R(0,90)__extrudedText(false); }//Side
+        if(textPosition == 2) { R(180,0,180)__extrudedText(); }//Top
+        if(textPosition == 3) { T(0)R(180)__extrudedText(); }//Bottom
+      }
+    }
+  }
   module _cardBox() {
     claspW=10;
     lidAngle=23;
@@ -118,6 +132,7 @@ module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20
           for(di=dividers) { if(di > 0) { T(0,-((0.5*dims[1])-di-(0.5*diThick)),((0.5*(dims[2]-lidH))-0.05))cube([(dims[0]+0.2),diThick,(dims[2]-lidH+0.1)], center=true); } }//dividers
         }
         Tz(dims[2]+(2*wall)-lidH-(dims[1]*tan(lidAngle)))__lidNegative();
+        if(textPosition != 2) { _textCutout(); }
       }
       T(-(0.5*claspW),-(0.5*dims[1]),(dims[2]+(2*wall)-lidH-(dims[1]*tan(lidAngle))))R(90,0,90)linear_extrude(claspW)__claspBP(); //clasp
       T(-(hingeL+hingePartOffset),(0.5*dims[1]),(dims[2]+(2*wall)-lidH-0.001))R(90,0,90)linear_extrude(hingeL)__hingeBP(); //left hinge part
@@ -138,13 +153,13 @@ module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20
         //hinge roundover
         T(-((0.5*dims[0])+(2*wall)),((0.5*dims[1])+(0.5*wall)),(dims[2]+(2.5*wall)-lidH))R(0,90,0)cylinder(d=hingeD, h=(dims[0]+(4*wall)));//filament hole
         T(-((0.5*claspW)+0.2),-((0.5*dims[1])+0.001),(dims[2]+(2*wall)-lidH-(dims[1]*tan(lidAngle))))R(90,0,90)linear_extrude(claspW+0.4) offset(delta=0.1)__claspBP(); //clasp
+        if(textPosition == 2) { _textCutout(); }
       }
       Tz(dims[2]+(2*wall)-lidH-(dims[1]*tan(lidAngle)))__lidNegative();
     }
   }
   module _flipBox() {
     slantH=20;
-    flipClearance=0.5;
     slantOffset=14;
     stops=[[15,9],[15,12]];
     // Box
@@ -154,7 +169,7 @@ module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20
         difference() {
           Tz(wall)Box(x=dims[0], y=dims[1], z=dims[2], c=fillet, s=fillet);
           for(di=dividers) { if(di > 0) { T(0,-((0.5*dims[1])-di-(0.5*diThick)),((0.5*(dims[2]-lidH))-0.05))cube([(dims[0]+0.2),diThick,(dims[2]-lidH+0.1)], center=true); } }
-          T(-((0.5*dims[0])-wall),0,(2*wall))R(90)union() {//hinge filament channel
+          T(-((0.5*dims[0])+wall-hingeD),0,hingeD)R(90)union() {//hinge filament channel
             cylinder(d=(hingeD+1.2),h=(dims[1]+0.2),center=true);
             T(-wall)cube([(2*wall),(hingeD+1.2),(dims[1]+0.2)],center=true);
             T(-5,-wall)cube([(hingeD+1.2+10),(2*wall),(dims[1]+0.2)],center=true);
@@ -162,6 +177,7 @@ module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20
         }
         T(0,((0.5*dims[1])+wall+0.1))R(90)linear_extrude(dims[1]+(2*wall)+0.2)polygon([[-(0.1+(0.5*dims[0])+wall),(dims[2]+(2*wall)-slantH-0.1)],[-((0.5*dims[0])+wall),(dims[2]+(2*wall)-slantH)],[((0.5*dims[0])-(2*wall)),(dims[2]+wall-1)],[(0.5*dims[0]),(dims[2]+wall-1)],[(0.5*dims[0]),(dims[2]+(2*wall)+0.1)],[-(0.1+(0.5*dims[0])+wall),(dims[2]+(2*wall)+0.1)]]);
         T(-((0.5*dims[0])+wall-hingeD),((0.5*dims[1])+wall+0.1),hingeD)R(90)cylinder(d=hingeD,h=(dims[1]+(2*wall)+0.2));//filament hole
+        if(textPosition == 3) { _textCutout(); }
       }
       for(st=stops) {//stops
         T(((0.5*dims[0])-wall-st[0]),((0.5*dims[1])+wall),(dims[2]+wall-st[1]))sphere(d=1);
@@ -180,6 +196,7 @@ module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20
         T(-((0.5*dims[0])-stop[0]),((0.5*dims[1])+wall+flipClearance),(wall+stop[1]))sphere(d=1);
         T(-((0.5*dims[0])-stop[0]),-((0.5*dims[1])+wall+flipClearance),(wall+stop[1]))sphere(d=1);
       }
+      if(textPosition != 3) { _textCutout(); }
     }
   }
 
