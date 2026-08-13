@@ -16,9 +16,9 @@
 //      v1.0.0    2024-11-16    Release version
 //
 
-/* [Box Type] */
+/* [Render Settings] */
 // Which type of box to render. Make sure to go over the settings on the bottom concerning the selected box type
-boxType = 0; // [0:Cardbox, 1:Flipbox]
+boxType = 1; // [0:Cardbox, 1:Flipbox]
 
 /* [Box Dimensions] */
 // Inner width dimension of assembled box in mm.
@@ -27,57 +27,24 @@ insideWidth = 66; // [52:200]
 insideHeight = 91; // [50:200]
 // Inner depth dimension of assembled box in mm.
 insideDepth = 20; // [20:100]
-// Thickness for walls of box in mm
+// Thickness for walls of box in mm (3.6 for cardbox, 2.4 for flipbox)
 wallThickness = 3.6;
-// Radius of hinge hole in mm (enlarge if filament doesn't fit or has to much friction)
-hingeRadius = 1.1;
+// Fillet radius in mm (keep fillet radius well below wall thickness for good results)
+fillet = 1.6;
+// If values are above 0, these are used to render a divider using the value as an offset in mm
+dividerOffsets = [10,15];
+// Diameter of hinge hole in mm (enlarge if filament doesn't fit or has to much friction)
+hingeD = 2.2;
 
-/* [Text] */
-// How to render text
-textRendering = 1; // [0:No text, 1:Debossing, 2:Embossing]
-// Indenting depth for texts in mm
-debossingDepth = 0.4;
-// Embossing height for texts in mm
-embossingHeight = 0.4;
-
-// Text printed on the front of the box, leave empty for none.
-frontText = "Regular";
-// Font size for the text on the front
-fontSizeFront = 10;
-
-// Text printed on the side of the box, leave empty for none.
-sideText = "Regular";
-// Font size for the text on the side
-fontSizeSide = 10;
-
-// Text printed on the top of the box, leave empty for none.
-topText = "Regular";
-// Font size for the text on the top
-fontSizeTop = 10;
-
-/* [Regular Box] */
+/* [Cardbox Settings] */
 // Height dimension of the lid (indirectly determines height of hinge) in mm
 lidHeight = 16; // [10:40]
 
-/* [Flip Box] */
-// Override wallthickness with following value (in mm)
-wallOverride = 2.4;
-// Fillet radius in mm (keep fillet radius well below wall thickness for good results)
-fillet = 1.6;
-// Clearance for the two halves of the flipbox in mm
-clearance = 0.5;
+/* [Flipbox Settings] */
 // Whether to have a slanted outside half of the box or not
-slantedOutside = false;
-
-/* [Dividers] */
-// Thickness for the dividers in mm
-dividerThickness = 0.6;
-// If values are above 0, these are used to render a divider using the value as an offset in mm
-dividerOffsets = [0,0];
+slantedOutside = true;
 
 /* [Advanced Settings] */
-slantAngle = 23;
-filletR = 1.6;
 fontString = "Agency FB:style=Bold";
 
 
@@ -94,10 +61,13 @@ use <ub.scad>;
 
 /*
           TODO:
-    [ ] Add flipbox type
+    [x] Add flipbox type
+    [x] Add flipbox slant
+    [x] Add "stop-bumps" on flipbox
+    [x] Roundover on lid hingeparts for cardbox
+    [x] Add divider functionality
     [ ] Add text thingies
-    [ ] Roundover on lid hingeparts for cardbox
-    [ ] Add divider functionality
+    [x] filament hole channel in box of flipbox
 
 */
 
@@ -107,14 +77,17 @@ cardbox(
   type=boxType,
   dims=[insideWidth,insideDepth,insideHeight],
   lidH=lidHeight,
-  wall=(boxType == 1 ? wallOverride : wallThickness),
-  fillet=(boxType == 1 ? fillet : filletR),
-  hingeD=(2*hingeRadius),
+  wall=wallThickness,
+  fillet=fillet,
+  hingeD=hingeD,
+  dividers=dividerOffsets,
+  flipSlanted=slantedOutside,
 );
 
 
 
-module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20, hingeD=2.2) {
+module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20, hingeD=2.2, dividers=[0,0], flipSlanted=false) {
+  diThick = 0.6;
   module _cardBox() {
     claspW=10;
     lidAngle=23;
@@ -140,7 +113,10 @@ module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20
     union() {
       difference() {
         Box(x=(dims[0]+(2*wall)), y=(dims[1]+(2*wall)), z=(dims[2]+(2*wall)), c=fillet, s=fillet);
-        Tz(wall)Box(x=dims[0], y=dims[1], z=dims[2], c=fillet, s=fillet);
+        difference() {
+          Tz(wall)Box(x=dims[0], y=dims[1], z=dims[2], c=fillet, s=fillet);
+          for(di=dividers) { if(di > 0) { T(0,-((0.5*dims[1])-di-(0.5*diThick)),((0.5*(dims[2]-lidH))-0.05))cube([(dims[0]+0.2),diThick,(dims[2]-lidH+0.1)], center=true); } }//dividers
+        }
         Tz(dims[2]+(2*wall)-lidH-(dims[1]*tan(lidAngle)))__lidNegative();
       }
       T(-(0.5*claspW),-(0.5*dims[1]),(dims[2]+(2*wall)-lidH-(dims[1]*tan(lidAngle))))R(90,0,90)linear_extrude(claspW)__claspBP(); //clasp
@@ -155,6 +131,11 @@ module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20
         T(-(0.5*(dims[0]+(2*wall)+0.2)),(0.5*dims[1]),-lidH)cube([(dims[0]+(2*wall)+0.2),(dims[1]+(2*wall)),(dims[2]+(2*wall))]); //straighten hingepart
         T(-(hingeL+hingePartOffset+0.2),((0.5*dims[1])-0.1),(dims[2]+(2*wall)-lidH-wall))cube([(hingeL+0.4),(2*wall),(2*wall)]); //remove left hinge
         T((hingePartOffset-0.2),((0.5*dims[1])-0.1),(dims[2]+(2*wall)-lidH-wall))cube([(hingeL+0.4),(2*wall),(2*wall)]); //remove right hinge
+        T(-((0.5*dims[0])+wall+0.1),((0.5*dims[1])+(0.5*wall)),(dims[2]+(2.5*wall)-lidH))R(0,90)linear_extrude(dims[0]+(2*wall)+0.2)difference() {
+          square(wall);
+          circle(d=wall);
+        }
+        //hinge roundover
         T(-((0.5*dims[0])+(2*wall)),((0.5*dims[1])+(0.5*wall)),(dims[2]+(2.5*wall)-lidH))R(0,90,0)cylinder(d=hingeD, h=(dims[0]+(4*wall)));//filament hole
         T(-((0.5*claspW)+0.2),-((0.5*dims[1])+0.001),(dims[2]+(2*wall)-lidH-(dims[1]*tan(lidAngle))))R(90,0,90)linear_extrude(claspW+0.4) offset(delta=0.1)__claspBP(); //clasp
       }
@@ -162,7 +143,44 @@ module cardbox(type=0, dims=[66,20,91], lidH=16, wall=3.6, fillet=1.6, hingeL=20
     }
   }
   module _flipBox() {
-    
+    slantH=20;
+    flipClearance=0.5;
+    slantOffset=14;
+    stops=[[15,9],[15,12]];
+    // Box
+    union() {
+      difference() {
+        Box(x=(dims[0]+(2*wall)), y=(dims[1]+(2*wall)), z=(dims[2]+(2*wall)), c=fillet, s=fillet);
+        difference() {
+          Tz(wall)Box(x=dims[0], y=dims[1], z=dims[2], c=fillet, s=fillet);
+          for(di=dividers) { if(di > 0) { T(0,-((0.5*dims[1])-di-(0.5*diThick)),((0.5*(dims[2]-lidH))-0.05))cube([(dims[0]+0.2),diThick,(dims[2]-lidH+0.1)], center=true); } }
+          T(-((0.5*dims[0])-wall),0,(2*wall))R(90)union() {//hinge filament channel
+            cylinder(d=(hingeD+1.2),h=(dims[1]+0.2),center=true);
+            T(-wall)cube([(2*wall),(hingeD+1.2),(dims[1]+0.2)],center=true);
+            T(-5,-wall)cube([(hingeD+1.2+10),(2*wall),(dims[1]+0.2)],center=true);
+          }
+        }
+        T(0,((0.5*dims[1])+wall+0.1))R(90)linear_extrude(dims[1]+(2*wall)+0.2)polygon([[-(0.1+(0.5*dims[0])+wall),(dims[2]+(2*wall)-slantH-0.1)],[-((0.5*dims[0])+wall),(dims[2]+(2*wall)-slantH)],[((0.5*dims[0])-(2*wall)),(dims[2]+wall-1)],[(0.5*dims[0]),(dims[2]+wall-1)],[(0.5*dims[0]),(dims[2]+(2*wall)+0.1)],[-(0.1+(0.5*dims[0])+wall),(dims[2]+(2*wall)+0.1)]]);
+        T(-((0.5*dims[0])+wall-hingeD),((0.5*dims[1])+wall+0.1),hingeD)R(90)cylinder(d=hingeD,h=(dims[1]+(2*wall)+0.2));//filament hole
+      }
+      for(st=stops) {//stops
+        T(((0.5*dims[0])-wall-st[0]),((0.5*dims[1])+wall),(dims[2]+wall-st[1]))sphere(d=1);
+        T(((0.5*dims[0])-wall-st[0]),-((0.5*dims[1])+wall),(dims[2]+wall-st[1]))sphere(d=1);
+      }
+    }
+    // Lid
+    T(0,(dims[1]+(3*wall)+flipClearance+1))difference() {
+      Box(x=(dims[0]+(2*wall)), y=(dims[1]+(4*wall)+flipClearance), z=(dims[2]+(2*wall)), c=fillet, s=fillet);
+      T(-wall,0,wall)Box(x=(dims[0]+(2*wall)), y=(dims[1]+(2*wall)+flipClearance), z=(dims[2]+(2*wall)), c=fillet, s=fillet);
+      T(((0.5*dims[0])-hingeD-0.2),((0.5*dims[1])+(2*wall)+(0.5*flipClearance)+0.1),(dims[2]+(2*wall)-hingeD))R(90)cylinder(d=hingeD,h=(dims[1]+(4*wall)+flipClearance+0.2));//filament hole
+      if(flipSlanted) {
+        T(0,((0.5*dims[1])+(2*wall)+(0.5*flipClearance)+0.1))R(90)linear_extrude(dims[1]+(4*wall)+flipClearance+0.2)polygon([[-((0.5*dims[0])+wall+0.1),(wall+slantOffset)],[-((0.5*dims[0])+wall),(wall+slantOffset)],[((0.5*dims[0])-slantOffset),(dims[2]+(2*wall))],[((0.5*dims[0])-slantOffset),(dims[2]+(2*wall)+0.1)],[-((0.5*dims[0])+wall+0.1),(dims[2]+(2*wall)+0.1)]]);
+      }
+      for(stop=stops) {//stops
+        T(-((0.5*dims[0])-stop[0]),((0.5*dims[1])+wall+flipClearance),(wall+stop[1]))sphere(d=1);
+        T(-((0.5*dims[0])-stop[0]),-((0.5*dims[1])+wall+flipClearance),(wall+stop[1]))sphere(d=1);
+      }
+    }
   }
 
   if(type == 0) { _cardBox(); }
