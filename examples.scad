@@ -33,8 +33,10 @@ use <ub.scad>;
 // =========================================== [ Home ] ===========================================
 // ======================================= [ Home / Games ] =======================================
 // =============================== [ Home / Games / cardbox.scad ] ================================
-//use <Models/Home/Games/cardbox.scad>;
-//RIXTODO convert with UB and check design
+use <Models/Home/Games/cardbox.scad>;
+T(-70,200)cardbox(boxText="Regular");
+T(-150,200)cardbox(type=1,boxText="Regular",flipSlanted=true);
+T(-460,200)_hText("Models/Home/Games/cardbox.scad");
 
 
 // ====================================== [ Home / Kitchen ] ======================================
