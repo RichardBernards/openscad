@@ -25,13 +25,13 @@ gap = 20;
 // Whether or not to add clips for an aluminium rod
 addRodClips = true;
 // Diameter of aluminium rod to attach led-strip to (in mm)
-rod = 12;
+rod = 13;
 // Length of connector part for sections in mm
 connectorLength = 30;
 // Which item to render
 renderItem = 5; // [0:Channel Section, 1:Left Endcap, 2:Right Endcap, 3:Assembly, 4:Exploded View, 5:Printer Friendly]
 // Number of items to render along two axis [x,y]
-count = [2,3];
+count = [1,1];
 
 /* [Hidden] */
 // renderSetting 1
@@ -148,9 +148,9 @@ module ledchannel(diam=50, length=200, wall=3, gap=20, addRodClips=true, rod=12,
     for(ix=[0:1:(cnt[0]-1)]) { for(iy=[0:1:(cnt[1]-1)]) {
       T((ix*(diam+1)),(iy*(diam+1)))union() {
         Tz(wall)union() {
-          rotate_extrude(angle=(180-gapAngle), start=-(90-(0.5*gapAngle))) __femaleConnector();
+          Tz(connectorLength)R(180)rotate_extrude(angle=(180-gapAngle), start=-(90-(0.5*gapAngle))) __femaleConnector();
           T(-(0.5*gap),(((0.5*gap)/tan(0.5*gapAngle))-wall))cube([gap,wall,connectorLength]);
-          rotate_extrude(angle=(180-gapAngle), start=(90+(0.5*gapAngle))) __femaleConnector();
+          Tz(connectorLength)R(180)rotate_extrude(angle=(180-gapAngle), start=(90+(0.5*gapAngle))) __femaleConnector();
         }
         difference() {
           Tz((0.5*wall)+1)Pille(l=(wall+2),d=diam,rad=1);
