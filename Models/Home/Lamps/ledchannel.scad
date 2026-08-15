@@ -117,13 +117,13 @@ module ledchannel(diam=50, length=200, wall=3, gap=20, addRodClips=true, rod=12,
         //right side of channel
         rotate_extrude(angle=(180-gapAngle), start=-(90-(0.5*gapAngle))) __femaleConnector();
         rotate_extrude(angle=(180-gapAngle), start=-(90-(0.5*gapAngle))) __bluePrint(length);
-        Tz(length-connectorLength)rotate_extrude(angle=(180-gapAngle), start=-(90-(0.5*gapAngle))) __maleConnector();
+        Tz(length-connectorLength)rotate_extrude(angle=(170-gapAngle), start=-(90-(0.5*gapAngle))) __maleConnector();
         //flat top part of channel
         T(-(0.5*gap),(((0.5*gap)/tan(0.5*gapAngle))-wall))cube([gap,wall,(length-connectorLength-0.2)]);
         //left side of channel
         rotate_extrude(angle=(180-gapAngle), start=(90+(0.5*gapAngle))) __femaleConnector();
         rotate_extrude(angle=(180-gapAngle), start=(90+(0.5*gapAngle))) __bluePrint(length);
-        Tz(length-connectorLength)rotate_extrude(angle=(180-gapAngle), start=(90+(0.5*gapAngle))) __maleConnector();
+        Tz(length-connectorLength)rotate_extrude(angle=(170-gapAngle), start=(100+(0.5*gapAngle))) __maleConnector();
         //Add rodclips
         if(addRodClips) {
           T(0,(((0.5*gap)/tan(0.5*gapAngle))-wall),(length-connectorLength-10))__rodClip();
@@ -135,11 +135,12 @@ module ledchannel(diam=50, length=200, wall=3, gap=20, addRodClips=true, rod=12,
   module _leftCap(cnt=[1,1]) {
     for(ix=[0:1:(cnt[0]-1)]) { for(iy=[0:1:(cnt[1]-1)]) {
       T((ix*(diam+1)),(iy*(diam+1)))union() {
-        Tz(wall)rotate_extrude(angle=(180-gapAngle), start=-(90-(0.5*gapAngle))) __maleConnector();
-        Tz(wall)rotate_extrude(angle=(180-gapAngle), start=(90+(0.5*gapAngle))) __maleConnector();
+        Tz(wall)rotate_extrude(angle=(170-gapAngle), start=-(90-(0.5*gapAngle))) __maleConnector();
+        Tz(wall)rotate_extrude(angle=(170-gapAngle), start=(100+(0.5*gapAngle))) __maleConnector();
         difference() {
           Tz((0.5*wall)+1)Pille(l=(wall+2),d=diam,rad=1);
           Tz(diam+wall)cube(2*diam, center=true);
+          T(0,(diam+((0.5*gap)/tan(0.5*gapAngle))))cube(2*diam, center=true);
         }
       }
     }}
@@ -155,6 +156,7 @@ module ledchannel(diam=50, length=200, wall=3, gap=20, addRodClips=true, rod=12,
         difference() {
           Tz((0.5*wall)+1)Pille(l=(wall+2),d=diam,rad=1);
           Tz(diam+wall)cube(2*diam, center=true);
+          T(0,(diam+((0.5*gap)/tan(0.5*gapAngle))))cube(2*diam, center=true);
         }
       }
     }}
