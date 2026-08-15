@@ -18,7 +18,7 @@
 
 /* [Render Settings] */
 // Which type of box to render. Make sure to go over the settings on the bottom concerning the selected box type
-boxType = 1; // [0:Cardbox, 1:Flipbox]
+boxType = 0; // [0:Cardbox, 1:Flipbox]
 
 /* [Box Dimensions] */
 // Inner width dimension of assembled box in mm.
