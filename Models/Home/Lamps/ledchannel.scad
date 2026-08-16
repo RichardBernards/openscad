@@ -181,7 +181,7 @@ module ledchannel(diam=50, length=200, wall=3, gap=20, addRodClips=true, rod=12,
     _ledChannel(count);
   }
 
-  if(renderItem == 0) { _ledChannel(); }
+  if(renderItem == 0) { _ledChannel(count); }
   if(renderItem == 1) { _leftCap(); }
   if(renderItem == 2) { _rightCap(); }
   if(renderItem == 3) { _assembly(); }
