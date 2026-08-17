@@ -14,7 +14,9 @@
 //
 
 
-
+home = true;
+it = true;
+tools = true;
 
 
 
@@ -25,89 +27,90 @@ $fs = 0.2;
 $fa = 2;
 
 use <ub.scad>;
-//use <threads-scad/threads.scad>;
-//use <knurledFinishLib_v2.scad>;
 
-
-
-// =========================================== [ Home ] ===========================================
-// ======================================= [ Home / Games ] =======================================
-// =============================== [ Home / Games / cardbox.scad ] ================================
+//home
 use <Models/Home/Games/cardbox.scad>;
-T(-70,200)cardbox(boxText="Regular");
-T(-150,200)cardbox(type=1,boxText="Regular",flipSlanted=true);
-T(-460,200)_hText("Models/Home/Games/cardbox.scad");
-
-
-// ====================================== [ Home / Kitchen ] ======================================
-// ========================== [ Home / Kitchen / papertowelholder.scad ] ==========================
 use <Models/Home/Kitchen/papertowelholder.scad>;
-T(100,300)papertowelholder(renderItem=4);
-T(200,300)_hText("Models/Home/Kitchen/papertowelholder.scad");
-
-
-// ======================================= [ Home / Lamps ] =======================================
-// ============================== [ Home / Lamps / ledchannel.scad ] ==============================
 use <Models/Home/Lamps/ledchannel.scad>;
-T(170,170,-75)ledchannel(renderItem=4);
-T(340,170)_hText("Models/Home/Lamps/ledchannel.scad");
-
-
-// ====================================== [ Home / Storage ] ======================================
-// ========================= [ Home / Storage / dialbox_organiser.scad ] ==========================
 use <Models/Home/Storage/dialbox_organiser.scad>;
-T(50,100)dialbox_organiser();
-T(100,100)_hText("Models/Home/Storage/dialbox_organiser.scad");
-// ============================== [ Home / Storage / wallhook.scad ] ==============================
 use <Models/Home/Storage/wallhook.scad>;
-T(20,-150)wallhook();
-T(50,-50)_hText("Models/Home/Storage/wallhook.scad");
-
-
-// ============================================ [ IT ] ============================================
-// ==================================== [ IT / Mobile Phone ] =====================================
-// ==================== [ IT / Mobile Phone / phoneholder_car_headrest.scad ] =====================
+//it
 use <Models/IT/Mobile Phone/phoneholder_car_headrest.scad>;
-T(100,-220)phoneholder_car_headrest();
-T(170,-220)_hText("Models/IT/Mobile Phone/phoneholder_car_headrest.scad");
-
-
-
-
-// ========================================== [ Tools ] ===========================================
-// =================================== [ Tools / Consumables ] ====================================
-// ========================== [ Tools / Consumables / bowdenplug.scad ] ===========================
+//tools
 use <Models/Tools/Consumables/bowdenplug.scad>;
-T(-25,150)bowdenplug();
-T(-40,145)_hText("Models/Tools/Consumables/bowdenplug.scad",true);
-// ========================== [ Tools / Consumables / cableclamp.scad ] ===========================
 use <Models/Tools/Consumables/cableclamp.scad>;
-T(-35,125)cableclamp();
-T(-60,120)_hText("Models/Tools/Consumables/cableclamp.scad",true);
-// ============================= [ Tools / Consumables / knob.scad ] ==============================
 use <Models/Tools/Consumables/knob.scad>;
-T(-45,70,18)R(180)knob();
-T(-95,65)_hText("Models/Tools/Consumables/knob.scad",true);
-// ========================== [ Tools / Consumables / trussclamp.scad ] ===========================
 use <Models/Tools/Consumables/trussclamp.scad>;
-T(-40)trussclamp();
-T(-90)_hText("Models/Tools/Consumables/trussclamp.scad",true);
-
-
-
-
-// ==================================== [ Tools / Powertools ] ====================================
-// ====================== [ Tools / Powertools / dewalt_batteryholder.scad ] ======================
 use <Models/Tools/Powertools/dewalt_batteryholder.scad>;
-T(-20,-160)R(0,0,90)dewalt_batteryholder();
-T(-275,-120)_hText("Models/Tools/Powertools/dewalt_batteryholder.scad",true);
-// ======================== [ Tools / Powertools / dewalt_bitholder.scad ] ========================
 use <Models/Tools/Powertools/dewalt_bitholder.scad>;
-T(-50,-200)dewalt_bitholder();
-T(-100,-205)_hText("Models/Tools/Powertools/dewalt_bitholder.scad",true);
 
 
 
+if(home) {
+  // =========================================== [ Home ] ===========================================
+  // ======================================= [ Home / Games ] =======================================
+  // =============================== [ Home / Games / cardbox.scad ] ================================
+  T(-70,200)cardbox(boxText="Regular");
+  T(-150,200)cardbox(type=1,boxText="Regular",flipSlanted=true);
+  T(-460,200)_hText("Models/Home/Games/cardbox.scad");
+
+  // ====================================== [ Home / Kitchen ] ======================================
+  // ========================== [ Home / Kitchen / papertowelholder.scad ] ==========================
+  T(100,300)papertowelholder(renderItem=4);
+  T(200,300)_hText("Models/Home/Kitchen/papertowelholder.scad");
+
+  // ======================================= [ Home / Lamps ] =======================================
+  // ============================== [ Home / Lamps / ledchannel.scad ] ==============================
+  T(170,170,-75)ledchannel(renderItem=4);
+  T(340,170)_hText("Models/Home/Lamps/ledchannel.scad");
+
+  // ====================================== [ Home / Storage ] ======================================
+  // ========================= [ Home / Storage / dialbox_organiser.scad ] ==========================
+  T(50,100)dialbox_organiser();
+  T(100,100)_hText("Models/Home/Storage/dialbox_organiser.scad");
+  // ============================== [ Home / Storage / wallhook.scad ] ==============================
+  T(20,-150)wallhook();
+  T(50,-50)_hText("Models/Home/Storage/wallhook.scad");
+}
+
+
+
+if(it) {
+  // ============================================ [ IT ] ============================================
+  // ==================================== [ IT / Mobile Phone ] =====================================
+  // ==================== [ IT / Mobile Phone / phoneholder_car_headrest.scad ] =====================
+  T(100,-220)phoneholder_car_headrest();
+  T(170,-220)_hText("Models/IT/Mobile Phone/phoneholder_car_headrest.scad");
+}
+
+if(tools) {
+  // ========================================== [ Tools ] ===========================================
+  // =================================== [ Tools / Consumables ] ====================================
+  // ========================== [ Tools / Consumables / bowdenplug.scad ] ===========================
+  T(-25,150)bowdenplug();
+  T(-40,145)_hText("Models/Tools/Consumables/bowdenplug.scad",true);
+
+  // ========================== [ Tools / Consumables / cableclamp.scad ] ===========================
+  T(-35,125)cableclamp();
+  T(-60,120)_hText("Models/Tools/Consumables/cableclamp.scad",true);
+
+  // ============================= [ Tools / Consumables / knob.scad ] ==============================
+  T(-45,70,18)R(180)knob();
+  T(-95,65)_hText("Models/Tools/Consumables/knob.scad",true);
+
+  // ========================== [ Tools / Consumables / trussclamp.scad ] ===========================
+  T(-40)trussclamp();
+  T(-90)_hText("Models/Tools/Consumables/trussclamp.scad",true);
+
+  // ==================================== [ Tools / Powertools ] ====================================
+  // ====================== [ Tools / Powertools / dewalt_batteryholder.scad ] ======================
+  T(-20,-160)R(0,0,90)dewalt_batteryholder();
+  T(-275,-120)_hText("Models/Tools/Powertools/dewalt_batteryholder.scad",true);
+
+  // ======================== [ Tools / Powertools / dewalt_bitholder.scad ] ========================
+  T(-50,-200)dewalt_bitholder();
+  T(-100,-205)_hText("Models/Tools/Powertools/dewalt_bitholder.scad",true);
+}
 
 
 

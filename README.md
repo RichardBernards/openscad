@@ -8,6 +8,7 @@ The used folder structure is an attempt to quickly locate a specific script by u
 
 <summary>Home</summary>
 
+![examples](Models/Home/examples.png)
 ### Home/Games
 | File | Description |
 | --- | --- |
@@ -34,6 +35,7 @@ The used folder structure is an attempt to quickly locate a specific script by u
 
 <summary>IT</summary>
 
+![examples](Models/IT/examples.png)
 ### IT/Mobile Phone
 | File | Description |
 | --- | --- |
@@ -44,6 +46,7 @@ The used folder structure is an attempt to quickly locate a specific script by u
 
 <summary>Tools</summary>
 
+![examples](Models/Tools/examples.png)
 ### Tools/Consumables
 | File | Description |
 | --- | --- |
@@ -60,5 +63,3 @@ The used folder structure is an attempt to quickly locate a specific script by u
 
 </details>
 
-## Render of models
-![examples](examples.png)
