@@ -35,6 +35,8 @@ use <Models/Home/Lamps/ledchannel.scad>;
 use <Models/Home/Storage/dialbox_organiser.scad>;
 use <Models/Home/Storage/wallhook.scad>;
 //it
+use <Models/IT/Camera/eufy_e30_mount.scad>;
+use <Models/IT/Camera/eufy_s350_mount.scad>;
 use <Models/IT/Mobile Phone/phoneholder_car_headrest.scad>;
 //tools
 use <Models/Tools/Consumables/bowdenplug.scad>;
@@ -77,10 +79,19 @@ if(home) {
 
 if(it) {
   // ============================================ [ IT ] ============================================
+  // ======================================== [ IT / Camera ] =======================================
+  // ============================= [ IT / Camera / eufy_e30_mount.scad ] ============================
+  T(50,-190)eufy_e30_mount();
+  T(95,-190)_hText("Models/IT/Camera/eufy_e30_mount.scad");
+
+  // ============================ [ IT / Camera / eufy_s350_mount.scad ] ============================
+  T(50,-260)eufy_s350_mount();
+  T(95,-260)_hText("Models/IT/Camera/eufy_s350_mount.scad");
+
   // ==================================== [ IT / Mobile Phone ] =====================================
   // ==================== [ IT / Mobile Phone / phoneholder_car_headrest.scad ] =====================
-  T(100,-220)phoneholder_car_headrest();
-  T(170,-220)_hText("Models/IT/Mobile Phone/phoneholder_car_headrest.scad");
+  T(100,-350)phoneholder_car_headrest();
+  T(170,-350)_hText("Models/IT/Mobile Phone/phoneholder_car_headrest.scad");
 }
 
 if(tools) {
