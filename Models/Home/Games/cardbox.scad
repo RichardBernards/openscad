@@ -60,19 +60,39 @@ $fa = 2;
 
 use <ub.scad>;
 
+
+presets = [
+  [boxType, [insideWidth,insideDepth,insideHeight], lidHeight, wallThickness, fillet, hingeD, dividerOffsets, boxText, textPosition, font, fontSize, slantedOutside],//0
+  [1, [66,23,91], 0, 2.4, 1.6, 2.2, [0,0], "Blinking", 2, font, fontSize, slantedOutside],//1
+  [1, [66,35,91], 0, 2.4, 1.6, 2.2, [0,0], "Phase12", 2, font, fontSize, slantedOutside],//2
+  [1, [66,20,91], 0, 2.4, 1.6, 2.2, [0,0], "Regular", 2, font, fontSize, slantedOutside],//3
+  [1, [66,50,91], 0, 2.4, 1.6, 2.2, [0,0], "Skipping", 2, font, fontSize, slantedOutside],//4
+  [1, [66,43,91], 0, 2.4, 1.6, 2.2, [0,0], "TheBrain", 2, font, fontSize, slantedOutside],//5
+  [1, [66,34,91], 0, 2.4, 1.6, 2.2, [0,0], "One", 2, font, fontSize, slantedOutside],//6
+  [0, [66,24,91], 16, 3.6, 1.6, 2.2, [1.8,0], "Blinking", 2, font, fontSize, false],//7
+  [0, [66,35,91], 16, 3.6, 1.6, 2.2, [1.8,27], "Phase12", 2, font, fontSize, false],//8
+  [0, [66,20,91], 16, 3.6, 1.6, 2.2, [0,0], "Regular", 2, font, fontSize, false],//9
+  [0, [66,51,91], 16, 3.6, 1.6, 2.2, [9,0], "Skipping", 2, font, fontSize, false],//10
+  [0, [66,43,91], 16, 3.6, 1.6, 2.2, [2,4.4,6.8], "TheBrain", 2, font, fontSize, false],//11
+  [0, [66,34,91], 16, 3.6, 1.6, 2.2, [26,0], "One", 2, font, fontSize, false],//12
+];
+
+useMarker = 3;
+
+
 cardbox(
-  type=boxType,
-  dims=[insideWidth,insideDepth,insideHeight],
-  lidH=lidHeight,
-  wall=wallThickness,
-  fillet=fillet,
-  hingeD=hingeD,
-  dividers=dividerOffsets,
-  boxText=boxText,
-  textPosition=textPosition,
-  font=font,
-  fontSize=fontSize,
-  flipSlanted=slantedOutside,
+  type=presets[useMarker][0],
+  dims=presets[useMarker][1],
+  lidH=presets[useMarker][2],
+  wall=presets[useMarker][3],
+  fillet=presets[useMarker][4],
+  hingeD=presets[useMarker][5],
+  dividers=presets[useMarker][6],
+  boxText=presets[useMarker][7],
+  textPosition=presets[useMarker][8],
+  font=presets[useMarker][9],
+  fontSize=presets[useMarker][10],
+  flipSlanted=presets[useMarker][11],
 );
 
 
