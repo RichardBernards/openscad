@@ -41,6 +41,12 @@ The used folder structure is an attempt to quickly locate a specific script by u
 | --- | --- |
 | `phoneholder_car_headrest.scad` | Parameterised phoneholder to be attached to the vertical rods of headrests in cars. |
 
+### IT/Camera
+| File | Description |
+| --- | --- |
+| `eufy_e30_mount.scad` | Mount for a Eufy e30 camera (for tripod-screws). |
+| `eufy_s350_mount.scad` | Mount for a Eufy s350 camera (for tripod-screws). |
+
 </details>
 <details>
 
