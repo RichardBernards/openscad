@@ -10,6 +10,7 @@
 // or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
 //  [Version history]
+//      v3.1.0    2026-10-12    Added presets
 //      v3.0.0    2026-08-12    Complete refactored version
 //      v2.1.0    2025-10-20    Refactored text, add dividers, cleanup for release
 //      v2.0.0    2025-10-18    Refactored boxes
