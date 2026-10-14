@@ -13,6 +13,7 @@ The used folder structure is an attempt to quickly locate a specific script by u
 | File | Description |
 | --- | --- |
 | `cardbox.scad` | Parameterised box to store playing cards. Useful features are multiple designs, configurable sections and ability to add text. |
+| `qwixxbox.scad` | Parameterised box to store scorecards and dice for a popular dice-game. |
 
 ### Home/Kitchen
 | File | Description |

@@ -30,6 +30,7 @@ use <ub.scad>;
 
 //home
 use <Models/Home/Games/cardbox.scad>;
+use <Models/Home/Games/qwixxbox.scad>;
 use <Models/Home/Kitchen/papertowelholder.scad>;
 use <Models/Home/Lamps/ledchannel.scad>;
 use <Models/Home/Storage/dialbox_organiser.scad>;
@@ -55,6 +56,10 @@ if(home) {
   T(-70,200)cardbox(boxText="Regular");
   T(-150,200)cardbox(type=1,boxText="Regular",flipSlanted=true);
   T(-460,200)_hText("Models/Home/Games/cardbox.scad");
+  // =============================== [ Home / Games / qwixxbox.scad ] ===============================
+  T(-130,330)qwixxBox(orientation=0);
+  T(-360,330)qwixxBox(orientation=1);
+  T(-740,330)_hText("Models/Home/Games/qwixboxx.scad");
 
   // ====================================== [ Home / Kitchen ] ======================================
   // ========================== [ Home / Kitchen / papertowelholder.scad ] ==========================
