@@ -78,7 +78,7 @@ presets = [
   [0, [66,34,91], 16, 3.6, 1.6, 2.2, [26,0], "One", 2, font, fontSize, false],//12
 ];
 
-useMarker = 3;
+useMarker = 0;
 
 
 cardbox(
