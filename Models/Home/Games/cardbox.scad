@@ -10,6 +10,7 @@
 // or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
 //  [Version history]
+//      v3.1.1    2026-10-12    Add presets to customizer
 //      v3.1.0    2026-10-12    Added presets
 //      v3.0.0    2026-08-12    Complete refactored version
 //      v2.1.0    2025-10-20    Refactored text, add dividers, cleanup for release
@@ -20,6 +21,8 @@
 /* [Render Settings] */
 // Which type of box to render. Make sure to go over the settings on the bottom concerning the selected box type
 boxType = 0; // [0:Cardbox, 1:Flipbox]
+// Which, if any, preset of settings to use.
+preset = 0; // [0:No preset, 1:Flipbox Blinking, 2:Flipbox Phase12, 3:Flipbox Regular, 4:Flipbox Skipping, 5:Flipbox TheBrain, 6:Flipbox ONE, 7:Cardbox Blinking, 8:Cardbox Phase12, 9:Cardbox Regular, 10:Cardbox Skipping, 11:Cardbox TheBrain, 12:Cardbox ONE]
 
 /* [Box Dimensions] */
 // Inner width dimension of assembled box in mm.
@@ -64,36 +67,34 @@ use <ub.scad>;
 
 presets = [
   [boxType, [insideWidth,insideDepth,insideHeight], lidHeight, wallThickness, fillet, hingeD, dividerOffsets, boxText, textPosition, font, fontSize, slantedOutside],//0
-  [1, [66,23,91], 0, 2.4, 1.6, 2.2, [0,0], "Blinking", 2, font, fontSize, slantedOutside],//1
-  [1, [66,35,91], 0, 2.4, 1.6, 2.2, [0,0], "Phase12", 2, font, fontSize, slantedOutside],//2
-  [1, [66,20,91], 0, 2.4, 1.6, 2.2, [0,0], "Regular", 2, font, fontSize, slantedOutside],//3
-  [1, [66,50,91], 0, 2.4, 1.6, 2.2, [0,0], "Skipping", 2, font, fontSize, slantedOutside],//4
-  [1, [66,43,91], 0, 2.4, 1.6, 2.2, [0,0], "TheBrain", 2, font, fontSize, slantedOutside],//5
-  [1, [66,34,91], 0, 2.4, 1.6, 2.2, [0,0], "One", 2, font, fontSize, slantedOutside],//6
-  [0, [66,24,91], 16, 3.6, 1.6, 2.2, [1.8,0], "Blinking", 2, font, fontSize, false],//7
-  [0, [66,35,91], 16, 3.6, 1.6, 2.2, [1.8,27], "Phase12", 2, font, fontSize, false],//8
-  [0, [66,20,91], 16, 3.6, 1.6, 2.2, [0,0], "Regular", 2, font, fontSize, false],//9
-  [0, [66,51,91], 16, 3.6, 1.6, 2.2, [9,0], "Skipping", 2, font, fontSize, false],//10
-  [0, [66,43,91], 16, 3.6, 1.6, 2.2, [2,4.4,6.8], "TheBrain", 2, font, fontSize, false],//11
-  [0, [66,34,91], 16, 3.6, 1.6, 2.2, [26,0], "One", 2, font, fontSize, false],//12
+  [1, [66,23,91], 0, 2.4, 1.6, 2.2, [0,0], "", 2, font, fontSize, slantedOutside],//1
+  [1, [66,35,91], 0, 2.4, 1.6, 2.2, [0,0], "", 2, font, fontSize, slantedOutside],//2
+  [1, [66,20,91], 0, 2.4, 1.6, 2.2, [0,0], "", 2, font, fontSize, slantedOutside],//3
+  [1, [66,50,91], 0, 2.4, 1.6, 2.2, [0,0], "", 2, font, fontSize, slantedOutside],//4
+  [1, [66,43,91], 0, 2.4, 1.6, 2.2, [0,0], "", 2, font, fontSize, slantedOutside],//5
+  [1, [66,34,91], 0, 2.4, 1.6, 2.2, [0,0], "", 2, font, fontSize, slantedOutside],//6
+  [0, [66,24,91], 16, 3.6, 1.6, 2.2, [1.8,0], "", 2, font, fontSize, false],//7
+  [0, [66,35,91], 16, 3.6, 1.6, 2.2, [1.8,27], "", 2, font, fontSize, false],//8
+  [0, [66,20,91], 16, 3.6, 1.6, 2.2, [0,0], "", 2, font, fontSize, false],//9
+  [0, [66,51,91], 16, 3.6, 1.6, 2.2, [9,0], "", 2, font, fontSize, false],//10
+  [0, [66,43,91], 16, 3.6, 1.6, 2.2, [2,4.4,6.8], "", 2, font, fontSize, false],//11
+  [0, [66,34,91], 16, 3.6, 1.6, 2.2, [26,0], "", 2, font, fontSize, false],//12
 ];
-
-useMarker = 0;
 
 
 cardbox(
-  type=presets[useMarker][0],
-  dims=presets[useMarker][1],
-  lidH=presets[useMarker][2],
-  wall=presets[useMarker][3],
-  fillet=presets[useMarker][4],
-  hingeD=presets[useMarker][5],
-  dividers=presets[useMarker][6],
-  boxText=presets[useMarker][7],
-  textPosition=presets[useMarker][8],
-  font=presets[useMarker][9],
-  fontSize=presets[useMarker][10],
-  flipSlanted=presets[useMarker][11],
+  type=presets[preset][0],
+  dims=presets[preset][1],
+  lidH=presets[preset][2],
+  wall=presets[preset][3],
+  fillet=presets[preset][4],
+  hingeD=presets[preset][5],
+  dividers=presets[preset][6],
+  boxText=presets[preset][7],
+  textPosition=presets[preset][8],
+  font=presets[preset][9],
+  fontSize=presets[preset][10],
+  flipSlanted=presets[preset][11],
 );
 
 
