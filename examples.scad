@@ -26,10 +26,13 @@ $fs = 0.2;
 // renderSetting 2
 $fa = 2;
 
+include <BOSL2/std.scad>;
+include <BOSL2/skin.scad>;
 use <ub.scad>;
 
 //home
 use <Models/Home/Games/cardbox.scad>;
+use <Models/Home/Games/diecast_track.scad>;
 use <Models/Home/Games/qwixxbox.scad>;
 use <Models/Home/Kitchen/papertowelholder.scad>;
 use <Models/Home/Lamps/ledchannel.scad>;
@@ -56,10 +59,15 @@ if(home) {
   T(-70,200)cardbox(boxText="Regular");
   T(-150,200)cardbox(type=1,boxText="Regular",flipSlanted=true);
   T(-460,200)_hText("Models/Home/Games/cardbox.scad");
+  // ============================= [ Home / Games / diecast_track.scad ] ============================
+  T(-80,260)diecast_track(trackType=0);
+  T(-260,260)diecast_track(trackType=1);
+  T(-250,322)diecast_track(trackType=2);
+  T(-550,330)_hText("Models/Home/Games/diecast_track.scad");
   // =============================== [ Home / Games / qwixxbox.scad ] ===============================
-  T(-130,330)qwixxBox(orientation=0);
-  T(-360,330)qwixxBox(orientation=1);
-  T(-740,330)_hText("Models/Home/Games/qwixboxx.scad");
+  T(-130,560)qwixxBox(orientation=0);
+  T(-360,560)qwixxBox(orientation=1);
+  T(-740,560)_hText("Models/Home/Games/qwixboxx.scad");
 
   // ====================================== [ Home / Kitchen ] ======================================
   // ========================== [ Home / Kitchen / papertowelholder.scad ] ==========================

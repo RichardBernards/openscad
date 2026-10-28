@@ -13,6 +13,7 @@ The used folder structure is an attempt to quickly locate a specific script by u
 | File | Description |
 | --- | --- |
 | `cardbox.scad` | Parameterised box to store playing cards. Useful features are multiple designs, configurable sections and ability to add text. |
+| `diecast_track.scad` | Parameterised hot diecast track parts. Multiple dimensionally configurable track types (straight, curved). All tracktypes can be connected with separate connector pieces (also included). |
 | `qwixxbox.scad` | Parameterised box to store scorecards and dice for a popular dice-game. |
 
 ### Home/Kitchen
