@@ -58,7 +58,13 @@ module diecast_track(trackType=0, length=200, angle=60, radius=160, filletRadius
 
   module _connectorPiece(length=35) {
     difference() {
-      R(90)Tz(-length)linear_extrude(length) offset(r=filletRadius) { offset(delta=-filletRadius) { polygon(_cutoutTrack); }}
+      R(90)Tz(-length)linear_extrude(length) union() {
+        offset(r=filletRadius) { offset(delta=-filletRadius) { polygon(_cutoutTrack); }}
+        intersection() {
+          polygon(_cutoutTrack);
+          T(filletRadius,-0.5)square([(40-(2*filletRadius)), 4]);
+        }
+      }
       T(20,15.5)cylinder(h=20, d=5);
       T(20)cylinder(h=20,d=14);
     }
