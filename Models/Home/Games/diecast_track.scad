@@ -10,6 +10,7 @@
 // or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 //
 //  [Version history]
+//      v1.1.0    2026-11-01    New Curve implementation
 //      v1.0.0    2026-10-28    Release version
 //      v0.9.0    2026-10-27    Add fillets to all track types
 //      v0.8.0    2026-10-26    Add Curve trackType
@@ -24,9 +25,9 @@ trackType = 0; // [0:Straight, 1:Curve, 2:Connector]
 // Length of track in mm (only used for Straight track)
 length = 200;
 // Angle of curve to render in degrees (only used for Curve track)
-angle = 60;
+angle = 90;
 // Radius of curve to render in mm (only used for Curve track)
-radius = 160;
+radius = 180;
 
 /* [Advanced Settings] */
 // Fillet radius for track in mm
@@ -55,6 +56,7 @@ diecast_track(
 module diecast_track(trackType=0, length=200, angle=60, radius=160, filletRadius=0.5) {
   _fullTrack = [ [0,0],[40,0],[40,15],[37.5,15],[37.5,5],[2.5,5],[2.5,15],[0,15] ];
   _cutoutTrack = [ [0,0],[10,0],[10,1],[7.2,1],[7.2,3.2],[33.4,3.2],[33.4,1],[30,1],[30,0],[40,0],[40,15],[37.5,15],[37.5,5],[2.5,5],[2.5,15],[0,15] ];
+  _cutoutNegative = [ [10,-1],[10,1],[7.2,1],[7.2,3.2],[33.4,3.2],[33.4,1],[30,1],[30,-1] ];
 
   module _connectorPiece(length=35) {
     difference() {
@@ -69,6 +71,13 @@ module diecast_track(trackType=0, length=200, angle=60, radius=160, filletRadius
       T(20)cylinder(h=20,d=14);
     }
   }
+  module _connectorNegative(length=35) {
+    union() {
+      R(90)Tz(-length)linear_extrude(length+0.1) polygon(_cutoutNegative);
+      T(20,15.5,-1)cylinder(h=20, d=5);
+      T(20,0,-1)cylinder(h=20,d=14);
+    }
+  }
   module _straight(length=200) {
     assert(length > 70, "Length needs to be greater than 70mm to account for connector cutouts.");
     union() {
@@ -78,16 +87,17 @@ module diecast_track(trackType=0, length=200, angle=60, radius=160, filletRadius
     }
   }
   module _curve(angle=60, radius=165) {
-    //using angle for steps makes for a nice enough rendering. Needs to be at least 2 though...
-    pathForSweep = arc(n=(angle > 1 ? angle : 2), r=radius, angle=angle);
+    //using angle for steps makes for a nice enough rendering. For connector pieces, angle needs to be at least 30 degrees...
+    assert(angle>=30, "For connector pieces, the angle of the curve needs to be at least 30 degrees.");
+    pathForSweep = arc(n=angle, r=radius, angle=angle);
+    orig_rgn = [_fullTrack];
+    min_rgn = offset(orig_rgn, delta=-filletRadius, closed=true);
+    rgn = offset(min_rgn, r=filletRadius, closed=true);
 
-    union() {
-      T(radius-40)_connectorPiece(length=35.1);
-      orig_rgn = [_fullTrack];
-      min_rgn = offset(orig_rgn, delta=-filletRadius, closed=true);
-      rgn = offset(min_rgn, r=filletRadius, closed=true);
-      T(0,35)path_sweep(rgn, pathForSweep);
-      T(0,35)R(0,0,angle)T((radius-40),35)mirror([0,1,0])_connectorPiece(length=35.1);
+    difference() {
+      path_sweep(rgn, pathForSweep);
+      T(radius-40)_connectorNegative();
+      R(0,0,angle)T(radius-40)mirror([0,1,0])_connectorNegative();
     }
   }
   module _connector() {
@@ -126,9 +136,6 @@ module diecast_track(trackType=0, length=200, angle=60, radius=160, filletRadius
       T(16.95,13,1.6)R(0,0,180)__slantPost();
       T(48.45,13,1.6)__slantPost();
       T(33,13,1.6)cylinder(h=1.6,d=13.5);
-
-      //to slow rate of fatigue
-      T(32.2)cube([1.6,26,1.6]);
     }
   }
 
