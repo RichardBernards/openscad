@@ -37,6 +37,7 @@ use <Models/Home/Games/qwixxbox.scad>;
 use <Models/Home/Kitchen/papertowelholder.scad>;
 use <Models/Home/Lamps/ledchannel.scad>;
 use <Models/Home/Storage/dialbox_organiser.scad>;
+use <Models/Home/Storage/skadis_pin.scad>;
 use <Models/Home/Storage/wallhook.scad>;
 //it
 use <Models/IT/Camera/eufy_e30_mount.scad>;
@@ -81,8 +82,11 @@ if(home) {
 
   // ====================================== [ Home / Storage ] ======================================
   // ========================= [ Home / Storage / dialbox_organiser.scad ] ==========================
-  T(50,100)dialbox_organiser();
-  T(100,100)_hText("Models/Home/Storage/dialbox_organiser.scad");
+  T(160,30)dialbox_organiser();
+  T(210,30)_hText("Models/Home/Storage/dialbox_organiser.scad");
+  // ============================= [ Home / Storage / skadis_pin.scad ] =============================
+  T(30,90)skadis_pin();
+  T(60,95)_hText("Models/Home/Storage/skadis_pin.scad");
   // ============================== [ Home / Storage / wallhook.scad ] ==============================
   T(20,-150)wallhook();
   T(50,-50)_hText("Models/Home/Storage/wallhook.scad");

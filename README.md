@@ -30,6 +30,7 @@ The used folder structure is an attempt to quickly locate a specific script by u
 | File | Description |
 | --- | --- |
 | `dialbox_organiser.scad` | Organiser for watch-dial-boxes commonly used in the watch making industry. |
+| `skadis_pin.scad` | Hanging pin for Skadis boards using T-Clips. |
 | `wallhook.scad` | Double wallhook (to hang your coat), dimensions are paraterised. |
 
 </details>
