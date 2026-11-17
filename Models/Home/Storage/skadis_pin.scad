@@ -25,12 +25,15 @@
 //      skadis_pin(d=10, l=55, zOffset=1, xOffset=2);
 //
 //  [Version history]
+//      v1.1.0    2026-11-17    Add square version
 //      v1.0.0    2026-11-14    Initial version
 //
 
 /* [Settings] */
 // Pin diameter in mm
 diameter = 22;
+// Shape of pin
+pinShape = 0; // [0:Round, 1:Square]
 // Pin length in mm
 length = 55;
 // Height position offset of pin in mm
@@ -46,10 +49,10 @@ $fa = 2;
 use <ub.scad>;
 
 
-skadis_pin(d=diameter, l=length, zOffset=zOffset, xOffset=xOffset);
+skadis_pin(d=diameter, l=length, s=pinShape, zOffset=zOffset, xOffset=xOffset);
 
 
-module skadis_pin(d=22, l=55, zOffset=0, xOffset=0) {
+module skadis_pin(d=22, l=55, s=0, zOffset=0, xOffset=0) {
   module _tclipcutout(length=0) {
     module _bowl(height=0) {
       union() {
@@ -77,15 +80,31 @@ module skadis_pin(d=22, l=55, zOffset=0, xOffset=0) {
       _bowl(length);
     }
   }
-
-  union() {
-    T(xOffset,zOffset)Pille(l=l, d=d, rad=2, center=false);
-    difference() {
-      hull() {
-        Pille(l=5.5, d=(d>22 ? d : 22), rad=2, center=false);
-        T(0,((0.5*(d>22 ? d : 22))+(0.5*22)))Pille(l=5.5, d=22, rad=2, center=false);
+  module _roundPin() {
+    union() {
+      T(xOffset,zOffset)Pille(l=l, d=d, rad=2, center=false);
+      difference() {
+        hull() {
+          Pille(l=5.5, d=(d>22 ? d : 22), rad=2, center=false);
+          T(0,((0.5*(d>22 ? d : 22))+(0.5*22)))Pille(l=5.5, d=22, rad=2, center=false);
+        }
+        T(0,((0.5*(d>22 ? d : 22))+(0.5*22)))R(-90)_tclipcutout(1);
       }
-      T(0,((0.5*(d>22 ? d : 22))+(0.5*22)))R(-90)_tclipcutout(1);
     }
   }
+  module _squarePin() {
+    union() {
+      T(xOffset,zOffset)Box(x=d, y=d, z=l, c=2, s=2);
+      difference() {
+        hull() {
+          Box(x=(d>22 ? d : 22), y=(d>22 ? d : 22), z=5.5, c=2, s=2);
+          T(0,((0.5*(d>22 ? d : 22))+(0.5*22)))Box(x=22, y=22, z=5.5, c=2, s=2);
+        }
+        T(0,((0.5*(d>22 ? d : 22))+(0.5*22)))R(-90)_tclipcutout(1);
+      }
+    }
+  }
+
+  if(s==0) { _roundPin(); }
+  if(s==1) { _squarePin(); }
 }
